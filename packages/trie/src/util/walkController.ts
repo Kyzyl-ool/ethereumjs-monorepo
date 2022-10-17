@@ -102,6 +102,9 @@ export class WalkController {
         try {
           childNode = await this.trie.lookupNode(nodeRef)
         } catch (error: any) {
+          if (error.message === 'Missing node in DB') {
+            taskFinishedCallback()
+          }
           return this.reject(error)
         }
         taskFinishedCallback() // this marks the current task as finished. If there are any tasks left in the queue, this will immediately execute the first task.
